@@ -7,6 +7,7 @@ import {enableScreens} from 'react-native-screens';
 import {AuthContext} from './components/Context';
 import AsyncStorage from '@react-native-community/async-storage';
 
+//test comment
 enableScreens();
 
 const App = () => {
