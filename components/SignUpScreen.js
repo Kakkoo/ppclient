@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import FixedBottom from './FixedBottom';
+import Config from "react-native-config";
+
 import {
   View,
   Text,
@@ -85,7 +87,7 @@ export default function SignUPScreen({navigation}) {
   };
   const registerUser = (userData) => {
     axios
-      .post("http://10.0.2.2:7200/api/users/register", userData)
+      .post(Config.API_URL + "/api/users/register", userData)
       .then((res) => navigation.navigate('SignInScreen'))
       .catch((err) => console.log(err));
        

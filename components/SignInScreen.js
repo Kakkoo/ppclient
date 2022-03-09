@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FixedBottom from "./FixedBottom";
+import Config from "react-native-config";
 import {
   View,
   Text,
@@ -55,8 +56,10 @@ export default function SignInScreen({ navigation }) {
     });
   };
   const loginHandle = (userData) => {
+    let V = Config.API_URL;
+    console.log(`V: ${V}/api/users/login`);
     axios
-      .post("http://10.0.2.2:7200/api/users/login", userData)
+      .post(`${Config.API_URL}/api/users/login`, userData)
       .then((res) => {
         const { token } = res.data;
         AsyncStorage.setItem("userToken", token);
