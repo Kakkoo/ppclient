@@ -56,8 +56,6 @@ export default function SignInScreen({ navigation }) {
     });
   };
   const loginHandle = (userData) => {
-    let V = Config.API_URL;
-    console.log(`V: ${V}/api/users/login`);
     axios
       .post(`${Config.API_URL}/api/users/login`, userData)
       .then((res) => {

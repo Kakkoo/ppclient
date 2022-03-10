@@ -29,11 +29,9 @@ const moneyInputChange = val => {
   }
 };
 const AssignWork = (data) => {
-  if(data.name !== "Select name" && data.work !== "Select work" && data.money){
     axios.post(`${Config.API_URL}/api/kids/assignwork`,data)
     .then((res) => setResponse(`${res.data.name} is assigned to ${res.data.work} for $ ${res.data.money}`))
-    .catch((err) => console.log(err))
-    }
+    .catch((err) => console.log(err))   
   }
 
 useEffect(() => {
@@ -73,7 +71,7 @@ if(response){
 return content;
 }
   return (
-    <View><Text>Assign Work</Text>
+    <View>
     <KIDS kids={kids} />
     <Picker
         selectedValue={data.work}
@@ -88,7 +86,7 @@ return content;
     <TextInput onChangeText={val => moneyInputChange(val)} placeholder="Enter amount in number only"/>
     <RESPONSE response={response}/>
     
-    <Button onPress= {AssignWork(data)} title="assign work" />
+    <Button onPress= {() => AssignWork(data)} title="assign work" />
     </View>
   )
 }
