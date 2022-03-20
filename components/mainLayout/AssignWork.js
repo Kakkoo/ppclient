@@ -7,10 +7,12 @@ import {
   Button,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-community/picker";
 import Config from "react-native-config";
 import * as Animatable from "react-native-animatable";
+import LinearGradient from "react-native-linear-gradient";
 
 export default function AssignWork() {
   const [kids, setKids] = useState("");
@@ -81,7 +83,7 @@ export default function AssignWork() {
     if (response) {
       content = <Text>{response}</Text>;
     } else {
-      content = <Text>Work to be added...</Text>;
+      content = <Text></Text>;
     }
     return content;
   };
@@ -120,7 +122,16 @@ export default function AssignWork() {
         <View>
           <RESPONSE response={response} />
         </View>
-        <Button onPress={() => AssignWork(data)} title="assign work" />
+        <View style={styles.button}>
+        <TouchableOpacity onPress={() => AssignWork(data)} title="assign work">
+          <LinearGradient  colors={["#158FAD", "#43C6DB"]}
+              style={styles.signIn}>
+                 <Text style={styles.textSign}>Assign work</Text>
+
+        </LinearGradient>
+        </TouchableOpacity>
+        </View>
+       
       </View>
     </View>
   );
@@ -132,9 +143,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#158FAD",
-    // justifyContent: "center",
-    // alignItems: "center",
-    // fontSize: 12,
   },
   header: {
     flex: 1,
@@ -157,4 +165,21 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
+  signIn: {
+    padding: 8,
+    width: 200,
+    height: 40,
+    justifyContent: "center",
+    borderRadius: 20,
+    flexDirection: "row",
+  },
+  textSign: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: 'white'
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

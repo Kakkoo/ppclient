@@ -23,16 +23,19 @@ export default function History() {
         />
       </View>
       <View style={styles.footer}>
-        <FlatList
+        <View style={styles.content1}>
+        <FlatList 
           data={history}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
-            <Text>
-              {item.name} has earned dollar{item.money} for work {item.work} on{" "}
+            <Text style={styles.content}>
+              {item.name} has completed {item.work} and earned dollar {item.money} on {" "}
               {item.date}
             </Text>
           )}
         />
+        </View>
+        
       </View>
     </View>
   );
@@ -72,4 +75,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
+  content1: {
+    marginTop: 0
+  },
+  content: {
+    margin: 6,
+    backgroundColor: "#E5E4E2",
+    padding: 4,
+    paddingLeft: 7,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  }
 });

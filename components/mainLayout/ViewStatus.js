@@ -1,9 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, FlatList, Button, Dimensions, StyleSheet} from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Button,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Config from "react-native-config";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import * as Animatable from "react-native-animatable";
+import LinearGradient from "react-native-linear-gradient";
 
 export default function ViewStatus() {
   const [earned, setEarned] = useState([]);
@@ -44,7 +53,7 @@ export default function ViewStatus() {
           data={earned}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
-            <Text>
+            <Text style={styles.content}>
               {item.value.name} has earned {item.value.money}
             </Text>
           )}
@@ -56,11 +65,11 @@ export default function ViewStatus() {
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <View>
-              <Text>
+              <Text style={styles.content}>
                 {item.name} has work {item.work} for dollar {item.money}
               </Text>
-              <Button
-                title="Done"
+              <View style={styles.button}>
+              <TouchableOpacity
                 onPress={() =>
                   workDone({
                     name: item.name,
@@ -68,7 +77,15 @@ export default function ViewStatus() {
                     money: item.money,
                   })
                 }
-              />
+              >
+                <LinearGradient
+                  colors={["#158FAD", "#43C6DB"]}
+                  style={styles.signIn}
+                >
+                  <Text style={styles.textSign}>Done</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -82,7 +99,6 @@ const height_logo = height * 0.07;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: "#158FAD",
   },
   header: {
@@ -111,4 +127,31 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
+  content: {
+    margin: 6,
+    backgroundColor: "#E5E4E2",
+    padding: 4,
+    paddingLeft: 7,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  signIn: {
+    padding: 8,
+    width: 200,
+    height: 40,
+    justifyContent: "center",
+    borderRadius: 20,
+    flexDirection: "row",
+  },
+  textSign: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
