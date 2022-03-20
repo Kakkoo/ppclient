@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import FixedBottom from './FixedBottom';
+import React, { useState } from "react";
+import FixedBottom from "./FixedBottom";
 import Config from "react-native-config";
 
 import {
@@ -10,113 +10,68 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  Button
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import * as Animatable from 'react-native-animatable';
-
-import { SET_ERROR, SET_USER } from "../actions/types";
+  Button,
+  Dimensions
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
+import * as Animatable from "react-native-animatable";
 import axios from "axios";
-import setAuthToken from "../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
-export default function SignUPScreen({navigation}) {
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
+export default function SignUPScreen({ navigation }) {
+  const [Error, setError] = useState("");
+  const [Data, setData] = useState({
+    email: "",
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
   });
-  const nameInputChange = val => {
+  const emailInputChange = (val) => {
     if (val.length !== 0) {
       setData({
-        ...data,
-        name: val,
-        check_textInputChange: true,
-      });
-    } else {
-      setData({
-        ...data,
-        name: val,
-        check_textInputChange: false,
-      });
-    }
-  };
-  const emailInputChange = val => {
-    if (val.length !== 0) {
-      setData({
-        ...data,
+        ...Data,
         email: val,
         check_textInputChange: true,
       });
+      setError("");
     } else {
       setData({
-        ...data,
+        ...Data,
         email: val,
         check_textInputChange: false,
       });
     }
-  };
-  const handlePasswordChange = val => {
-    setData({
-      ...data,
-      password: val,
-    });
-  };
-  const handleConfirmPasswordChange = val => {
-    setData({
-      ...data,
-      password2: val,
-    });
-  };
-  const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
-    });
-  };
-  const updateConfirmSecureTextEntry = () => {
-    setData({
-      ...data,
-      confirm_secureTextEntry: !data.confirm_secureTextEntry,
-    });
   };
   const registerUser = (userData) => {
     axios
       .post(Config.API_URL + "/api/users/register", userData)
-      .then((res) => navigation.navigate('SignInScreen'))
-      .catch((err) => console.log(err));
-       
-      console.log(data);
+      .then((res) => {
+        navigation.navigate("SignInScreen");
+        alert("Please check your eamil to find temporary password");
+      })
+      .catch((err) => {
+        if (err) {
+          setError(err.response.data.email);
+        }
+      });
+  };
+  const ERROR = ({ Error }) => {
+    let content;
+    if (Error) {
+      content = <Text style={styles.danger}>{Error}</Text>;
+    } else {
+      content = <Text></Text>;
+    }
+    return content;
   };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Register Now!</Text>
-        
+        <Animatable.Image animation="bounceIn" source={require('./images/nemo.png')} style={styles.logo} resizeMode='stretch' />
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.text_footer}>name</Text>
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Name"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => nameInputChange(val)}
-          />
-
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20} />
-            </Animatable.View>
-          ) : null}
-        </View>
         <Text style={styles.text_footer}>Email</Text>
         <View style={styles.action}>
           <FontAwesome name="user-o" color="#05375a" size={20} />
@@ -124,111 +79,60 @@ export default function SignUPScreen({navigation}) {
             placeholder="Your Email"
             style={styles.textInput}
             autoCapitalize="none"
-            onChangeText={val => emailInputChange(val)}
+            onChangeText={(val) => emailInputChange(val)}
           />
 
-          {data.check_textInputChange ? (
+          {Data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
               <Feather name="check-circle" color="green" size={20} />
             </Animatable.View>
           ) : null}
         </View>
-        <Text
-          style={[
-            styles.text_footer,
-            {
-              marginTop: 35,
-            },
-          ]}>
-          Password
-        </Text>
-        <View style={styles.action}>
-          <FontAwesome name="lock" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Password"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-        <Text
-          style={[
-            styles.text_footer,
-            {
-              marginTop: 35,
-            },
-          ]}>
-          Confirm Password
-        </Text>
-        <View style={styles.action}>
-          <FontAwesome name="lock" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Confirm Your Password"
-            secureTextEntry={data.confirm_secureTextEntry ? true : false}
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => handleConfirmPasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
+        <ERROR Error={Error} />
         <View style={styles.button}>
-          <TouchableOpacity   onPress={() => {
-            console.log(data);
-              registerUser(data)
-            }}>
+          <TouchableOpacity
+            onPress={() => {
+              registerUser(Data);
+            }}
+          >
             <LinearGradient
-              colors={['#08d4c4', '#01ab9d']}
-              style={(styles.signIn, {color: '#fff'})}>
+              colors={["#08d4c4", "#01ab9d"]}
+              style={(styles.signIn, { color: "#fff" })}
+            >
               <Text style={styles.textSign}>Sign up</Text>
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={() => 
-           navigation.navigate('SignInScreen')
-            }
+            onPress={() => navigation.navigate("Sign In")}
             style={[
               styles.signIn,
-              {borderColor: '#009387', borderWidth: 1, marginTop: 10},
-            ]}>
-            <Text style={[styles.textSign, {color: '#009387'}]}>Sign In</Text>
+              { borderColor: "#009387", borderWidth: 1, marginTop: 10 },
+            ]}
+          >
+            <Text style={[styles.textSign, { color: "#009387" }]}>Sign In</Text>
           </TouchableOpacity>
         </View>
-        <FixedBottom>
-        <Button title='Parent Portal' />
-        </FixedBottom>
       </Animatable.View>
-      
     </View>
   );
 }
+const {height} = Dimensions.get('screen');
+const height_logo = height * 0.07;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#009387',
+    backgroundColor: "#009387",
   },
   header: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingHorizontal: 20,
     paddingBottom: 10,
   },
   footer: {
     flex: 11,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     borderBottomLeftRadius: 30,
@@ -237,39 +141,51 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   text_header: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 30,
   },
   text_footer: {
-    color: '#05375a',
+    color: "#05375a",
     fontSize: 18,
   },
   action: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: "#f2f2f2",
     paddingBottom: 3,
   },
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: '#05375a',
+    color: "#05375a",
   },
   button: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 30,
   },
   signIn: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 10,
   },
   textSign: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+  },
+  danger: {
+    color: "white",
+    backgroundColor: "pink",
+  },
+  logo: {
+    width: height_logo,
+    height: height_logo,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

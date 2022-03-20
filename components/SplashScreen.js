@@ -1,90 +1,97 @@
-import React from 'react'
-import {View, Text, StyleSheet, Button, Dimensions, Image, TouchableOpacity } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import * as Animatable from 'react-native-animatable';
-import FixedBottom from './FixedBottom';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import * as Animatable from "react-native-animatable";
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>
-        Header
-        </Text>
-       <Animatable.Image animation="bounceIn" source={require('./images/shadow.png')} style={styles.logo} resizeMode='stretch' />
+        <Animatable.Image
+          animation="bounceIn"
+          source={require("./images/nemo.png")}
+          style={styles.logo}
+          resizeMode="stretch"
+        />
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer} >
-        <Text style={styles.title}>
-        Stay connected with everyone!
-        </Text>
+      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <Text style={styles.title}>Stay connected with everyone!</Text>
         <Text style={styles.text}>Sign in with account</Text>
-        <View style={styles.button} >
-        <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')} >
-        <LinearGradient colors={['#08d4c4', '#01ab9d']} style={styles.signIn}>
-          <Text styl={styles.textSign}>Get Started</Text>
-          <MaterialIcons name='navigate-next' color='#fff' size={20} />
-        </LinearGradient>
-        </TouchableOpacity>
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate("Sign In")}>
+            <LinearGradient
+              colors={["#158FAD", "#43C6DB"]}
+              style={styles.signIn}
+            >
+              <Text styl={styles.textsign}>Get Started</Text>
+              <MaterialIcons name="navigate-next" color="#fff" size={20} />
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
-        <FixedBottom>
-          <Button title='Parent Portal'>Parent Portal</Button>
-        </FixedBottom>
       </Animatable.View>
     </View>
   );
-}
+};
 export default SplashScreen;
 
-const {height} = Dimensions.get('screen');
+const { height } = Dimensions.get("screen");
 const height_logo = height * 0.20;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#009387'
+    backgroundColor: "#158FAD",
   },
   header: {
     flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   footer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "#F5F5F5",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
     paddingVertical: 50,
-    paddingHorizontal: 30
+    paddingHorizontal: 30,
   },
   logo: {
     width: height_logo,
-    height: height_logo
+    height: height_logo,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   title: {
-    color: '#05375a',
+    color: "#7E3817",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   text: {
-    color: 'grey',
-    marginTop: 5
+    color: "#EE9A4D",
+    marginTop: 5,
   },
   button: {
-    alignItems: 'flex-end',
-    marginTop: 30
+    alignItems: "flex-end",
+    marginTop: 30,
   },
   signIn: {
-    width: 150,
+    padding: 10,
+    width: 120,
     height: 40,
-    justifyContent: 'center',
-    borderRadius: 50,
-    flexDirection: 'row'
+    justifyContent: "center",
+    borderRadius: 20,
+    flexDirection: "row",
   },
-  textSign: {
-    color: 'white',
-    fontWeight: 'bold'
-  }
-})
+  textsign: {
+    color: "white",
+  },
+});

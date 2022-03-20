@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import FixedBottom from "./FixedBottom";
 import Config from "react-native-config";
 import {
   View,
@@ -9,7 +8,7 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  Button
+  Dimensions
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -21,6 +20,8 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
 
 export default function SignInScreen({ navigation }) {
+  const [Error, setError] = useState("");
+  const [ErrorPassword, setErrorPassword] = useState("");
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -68,13 +69,40 @@ export default function SignInScreen({ navigation }) {
         const decoded = jwt_decode(token);
         AsyncStorage.setItem("payload", decoded);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err) {
+          if (err.response.data.email) {
+            setError(err.response.data.email);
+          } else if (err.response.data.password) {
+            setErrorPassword(err.response.data.password);
+          }
+        }
+      });
+  };
+  const ERROR = ({ Error }) => {
+    let content;
+    if (Error) {
+      content = <Text style={styles.danger}>{Error}</Text>;
+    } else {
+      content = <Text></Text>;
+    }
+    return content;
+  };
+  const ERRORPASSWORD = ({ ErrorPassword }) => {
+    let content;
+    if (ErrorPassword) {
+      content = <Text style={styles.danger}>{ErrorPassword}</Text>;
+    } else {
+      content = <Text></Text>;
+    }
+    return content;
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#158FAD" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome!</Text>
+        <Animatable.Image animation="bounceIn" source={require('./images/nemo.png')} style={styles.logo} resizeMode='stretch' />
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
         <Text style={styles.text_footer}>Email</Text>
@@ -93,6 +121,10 @@ export default function SignInScreen({ navigation }) {
             </Animatable.View>
           ) : null}
         </View>
+        <View>
+          <ERROR Error={Error} />
+        </View>
+
         <Text
           style={[
             styles.text_footer,
@@ -120,58 +152,89 @@ export default function SignInScreen({ navigation }) {
             )}
           </TouchableOpacity>
         </View>
-        <View style={styles.button}>
+        <View>
+          <ERRORPASSWORD ErrorPassword={ErrorPassword} />
+        </View>
+        <View style={styles.button1}>
           <TouchableOpacity
             onPress={() => {
               loginHandle(data);
             }}
           >
             <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
-              style={(styles.signIn, { color: "#fff" })}
+              colors={["#158FAD", "#43C6DB"]}
+              style={styles.signIn}
             >
               <Text style={styles.textSign}>Sign In</Text>
             </LinearGradient>
           </TouchableOpacity>
+        </View>
+        <View >
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUpScreen")}
+            onPress={() => navigation.navigate("Forgot password")}
             style={[
-              styles.signIn,
-              { borderColor: "#009387", borderWidth: 1, marginTop: 15 },
+              styles.signIn1,
+              { marginTop: 30 },
             ]}
           >
-            <Text style={[styles.textSign, { color: "#009387" }]}>Sign Up</Text>
+            <LinearGradient
+              colors={["#E8A317", "#E1D9D1"]}
+              style={styles.signIn1}
+            >
+            <Text style={styles.textSign1}>
+              Forgot password
+            </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Sign Up")}
+            style={[
+              styles.signIn1,
+              { marginTop: 15 },
+            ]}
+          >
+             <LinearGradient
+              colors={["#E8A317", "#E1D9D1"]}
+              style={styles.signIn1}
+            >
+            <Text style={styles.textSign1}>Sign Up</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
-        <FixedBottom>
-          <Button title='Parent Portal'/>
-        </FixedBottom>
+        {/* <FixedBottom>
+          <Button title="Parent Portal" />
+        </FixedBottom> */}
       </Animatable.View>
-      
     </View>
   );
 }
+const {height} = Dimensions.get('screen');
+const height_logo = height * 0.07;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#009387",
+    backgroundColor: "#158FAD",
   },
   header: {
     flex: 1,
     justifyContent: "flex-end",
-    paddingHorizontal: 20,
-    paddingBottom: 50,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
   },
   footer: {
     flex: 3,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5F5",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingVertical: 30,
   },
+  button1: {
+    alignItems: "center",
+    marginTop: 0,
+  },
   text_header: {
-    color: "#fff",
+    color: "#F5F5F5",
     fontWeight: "bold",
     fontSize: 30,
   },
@@ -183,27 +246,54 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
-    paddingBottom: 5,
+    borderBottomColor: "#E9E4D4",
+    paddingBottom: 3,
   },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    //color: "#05375a",
+    color: "#25383C",
   },
   button: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 30,
   },
   signIn: {
-    width: "100%",
-    height: 50,
+    padding: 8,
+    width: 200,
+    height: 40,
     justifyContent: "center",
-    borderRadius: 10,
+    borderRadius: 20,
+    flexDirection: "row",
+  },
+  signIn1: {
+    padding: 4,
+    width: 350,
+    height: 30,
+    justifyContent: "center",
+    borderRadius: 20,
+    flexDirection: "row",
   },
   textSign: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  textSign1: {
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  danger: {
+    backgroundColor: "#E2A76F",
+    color: "white",
+  },
+  logo: {
+    width: height_logo,
+    height: height_logo,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

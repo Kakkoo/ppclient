@@ -9,8 +9,10 @@ import SignUpScreen from './SignUpScreen';
 import Main from './Main';
 import AddRemoveKid from './mainLayout/AddRemoveKid';
 import AssignWork from './mainLayout/AssignWork';
-import EarnedMoney from './mainLayout/EarnedMoney';
+import History from './mainLayout/History';
 import ViewStatus from './mainLayout/ViewStatus';
+import ForgotPassword from './mainLayout/ForgotPassword';
+import ChangePassword from './mainLayout/ChangePassword';
 
 enableScreens();
 
@@ -19,14 +21,16 @@ const RootStack = createStackNavigator();
 
 const RootStackScreen = ({navigation}) => (
     <RootStack.Navigator initialRouteName = "SplashScreen">
-        <RootStack.Screen name="SplashScreen" component={SplashScreen} />
-        <RootStack.Screen name="SignInScreen" component={SignInScreen} />
-        <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <RootStack.Screen name="Parent Portal" component={SplashScreen} />
+        <RootStack.Screen name="Sign In" component={SignInScreen} />
+        <RootStack.Screen name="Sign Up" component={SignUpScreen} />
         <RootStack.Screen name="Main" component={Main} />
-        <RootStack.Screen name="AddRemoveKid" component={AddRemoveKid} />
-        <RootStack.Screen name="AssignWork" component={AssignWork} />
-        <RootStack.Screen name="EarnedMoney" component={EarnedMoney} />
-        <RootStack.Screen name="ViewStatus" component={ViewStatus} />
+        <RootStack.Screen name="Add or Remove a Kid name" component={AddRemoveKid} />
+        <RootStack.Screen name="Assign work to a kid" component={AssignWork} />
+        <RootStack.Screen name="History of completed works" component={History} />
+        <RootStack.Screen name="View Status of earned money and assigned work" component={ViewStatus} />
+        <RootStack.Screen name="Forgot password" component={ForgotPassword} />
+        <RootStack.Screen name="Change Password" component={ChangePassword} />
 
     </RootStack.Navigator>
 );

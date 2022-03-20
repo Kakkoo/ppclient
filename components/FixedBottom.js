@@ -10,7 +10,7 @@ export default function FixedBottom({children}) {
 }
 const styles = StyleSheet.create({
  container: {
-     backgroundColor: '#009387',
+    // backgroundColor: '#009387',
      position: 'absolute',
      bottom: 0,
      left: 0,
