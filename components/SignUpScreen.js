@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import FixedBottom from "./FixedBottom";
 import Config from "react-native-config";
 
 import {
@@ -10,7 +9,6 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  Button,
   Dimensions
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";

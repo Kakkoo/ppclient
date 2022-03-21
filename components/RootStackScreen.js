@@ -1,8 +1,6 @@
 import React from "react";
 import { enableScreens } from 'react-native-screens';
-//import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import SplashScreen from './SplashScreen';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
@@ -13,10 +11,10 @@ import History from './mainLayout/History';
 import ViewStatus from './mainLayout/ViewStatus';
 import ForgotPassword from './mainLayout/ForgotPassword';
 import ChangePassword from './mainLayout/ChangePassword';
+import AddMoreGuardian from './mainLayout/AddMoreGuardian';
 
 enableScreens();
 
-//const RootStack = createNativeStackNavigator();
 const RootStack = createStackNavigator();
 
 const RootStackScreen = ({navigation}) => (
@@ -31,6 +29,7 @@ const RootStackScreen = ({navigation}) => (
         <RootStack.Screen name="View Status of earned money and assigned work" component={ViewStatus} />
         <RootStack.Screen name="Forgot password" component={ForgotPassword} />
         <RootStack.Screen name="Change Password" component={ChangePassword} />
+        <RootStack.Screen name="Add Guardian" component={AddMoreGuardian} />
 
     </RootStack.Navigator>
 );

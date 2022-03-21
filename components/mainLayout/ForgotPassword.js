@@ -24,7 +24,7 @@ export default function ForgotPassword({ navigation }) {
     axios
       .post(`${Config.API_URL}/api/users/forgotPassword`, userData)
       .then((res) => {
-        navigation.navigate("SignInScreen");
+        navigation.navigate("Sign In");
         alert("Please check your email for password");
       })
       .catch((err) => {

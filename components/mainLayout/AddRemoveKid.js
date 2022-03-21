@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
 import * as Animatable from 'react-native-animatable';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {
   View,
   Text,
@@ -107,12 +108,15 @@ export default function AddRemoveKid() {
       <View style={styles.footer}>
         <KIDS kids={kids} />
         <View style={styles.text1}>
+        <View style={styles.action}>
+          <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput
             placeholder="Enter a name to add"
             onChangeText={(val) => addnameInputChange(val)}
           />
+          </View>
         </View>
-        {/* <Button title="Add new kid" onPress={() => Addname(data)} /> */}
+        
         <View style={styles.button1}>
           <TouchableOpacity
             onPress={() => {
@@ -130,12 +134,15 @@ export default function AddRemoveKid() {
           </TouchableOpacity>
         </View>
         <View style={styles.text1}>
+        <View style={styles.action}>
+        <FontAwesome name="user-o" color="#05375a" size={20} />
         <TextInput
           placeholder="Enter a name to remove"
           onChangeText={(val) => removenameInputChange(val)}
         />
+        </View>
 </View>
-        {/* <Button title="Remove a kid" onPress={() => Removename(data)} /> */}
+       
         <View style={styles.button1}>
           <TouchableOpacity
             onPress={() => {
@@ -217,5 +224,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+  },
+   action: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E9E4D4",
+    paddingBottom: 0,
+    alignItems: "center",
   },
 });
