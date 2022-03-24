@@ -1,38 +1,64 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import * as Animatable from "react-native-animatable";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const SplashScreen = ({ navigation }) => {
+  const [userToken, setToken] = useState("");
+
+  useEffect(() => {
+    const Token = AsyncStorage.getItem("userToken");
+    if (Token !== null) {
+      setToken(Token);
+    }
+  }, []);
+  const mainORsignin = () => {
+    if (userToken !== "") {
+      navigation.navigate("Main");
+    }
+    navigation.navigate("Sign In");
+  };
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#9370DB" barStyle="light-content" />
       <View style={styles.header}>
-        <Animatable.Image
-          animation="bounceIn"
-          source={require("./images/nemo.png")}
-          style={styles.logo}
-          resizeMode="stretch"
-        />
+        <View style={styles.h1}>
+          <Animatable.Image
+            animation="bounceIn"
+            source={require("./images/logo.png")}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+        </View>
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.title}>Stay connected with everyone!</Text>
-        <Text style={styles.text}>Sign in with account</Text>
+        <View style={styles.F1}>
+          <View style={styles.T1}>
+            <Text style={styles.title1}>Parent</Text>
+          </View>
+          <View style={styles.T2}>
+            <Text style={styles.title2}>Children</Text>
+          </View>
+          <View style={styles.T3}>
+            <Text style={styles.title3}>Portal</Text>
+          </View>
+        </View>
+
         <View style={styles.button}>
-          <TouchableOpacity onPress={() => navigation.navigate("Sign In")}>
-            <LinearGradient
-              colors={["#158FAD", "#43C6DB"]}
-              style={styles.signIn}
-            >
-              <Text styl={styles.textsign}>Get Started</Text>
-              <MaterialIcons name="navigate-next" color="#fff" size={20} />
-            </LinearGradient>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => mainORsignin()}
+          >
+            <Text style={styles.textsign}>Get Started</Text>
+            <MaterialIcons name="navigate-next" style={styles.material} />
           </TouchableOpacity>
         </View>
       </Animatable.View>
@@ -42,56 +68,124 @@ const SplashScreen = ({ navigation }) => {
 export default SplashScreen;
 
 const { height } = Dimensions.get("screen");
-const height_logo = height * 0.20;
+const { width } = Dimensions.get("screen");
+const height_logo = height * 0.2;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#158FAD",
+    backgroundColor: "white",
+    padding: width * 0.06,
+    paddingTop: 0,
   },
   header: {
-    flex: 2,
+    flex: 1,
+    padding: width * 0.02,
+    flexDirection: "row",
+    backgroundColor: "#E6E6FA",
+    borderTopLeftRadius: width * 0.06,
+    borderTopRightRadius: width * 0.06,
+    borderBottomLeftRadius: width * 0.06,
+    borderBottomRightRadius: width * 0.06,
+    margin: height * 0.06,
+    marginTop: 0,
+  },
+  h1: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   footer: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
+    flexDirection: "row",
+  },
+  F1: {
+    backgroundColor: "#9370DB",
+    borderTopLeftRadius: width * 0.06,
+    borderTopRightRadius: width * 0.06,
+    borderBottomLeftRadius: width * 0.06,
+    borderBottomRightRadius: width * 0.06,
+    justifyContent: "center",
+    //padding: width * 0.06,
+    marginRight: width * 0.03,
+    marginTop: 0,
   },
   logo: {
     width: height_logo,
     height: height_logo,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
-  title: {
-    color: "#7E3817",
-    fontSize: 30,
+  title1: {
+    color: "white",
+    fontSize: width * 0.07,
     fontWeight: "bold",
+    margin: width * 0.07,
+    marginRight: width*0.001,
+    marginBottom: 0,
+    padding: width*0.01,
+    paddingLeft: width*0.04,
+    borderTopLeftRadius: width * 0.06,
+  //  borderTopRightRadius: width * 0.06,
+    borderBottomLeftRadius: width * 0.06,
+  //  borderBottomRightRadius: width * 0.06,
+
+
+    backgroundColor: "#9172EC"
   },
-  text: {
-    color: "#EE9A4D",
-    marginTop: 5,
+  title2: {
+    color: "white",
+    fontSize: width * 0.07,
+    fontWeight: "bold",
+    margin: width * 0.07,
+    marginLeft: width*0.001,
+    marginBottom: 0,
+    padding: width*0.01,
+    paddingLeft: width*0.04,
+   // borderTopLeftRadius: width * 0.06,
+   borderTopRightRadius: width * 0.06,
+    //borderBottomLeftRadius: width * 0.06,
+  borderBottomRightRadius: width * 0.06,
+
+
+    backgroundColor: "#9E7BFF"
   },
+  title3: {
+    color: "white",
+    fontSize: width * 0.07,
+    fontWeight: "bold",
+    margin: width * 0.07,
+  },
+  T1: {
+  marginLeft: -width*0.03
+  },
+  T2: {
+  
+  },
+  T3: {},
+
   button: {
-    alignItems: "flex-end",
-    marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFD700",
+    borderTopLeftRadius: width * 0.06,
+    borderTopRightRadius: width * 0.06,
+    borderBottomLeftRadius: width * 0.06,
+    borderBottomRightRadius: width * 0.06,
+    padding: width * 0.001,
+    marginLeft: width * 0.03,
+    marginTop: 0,
   },
   signIn: {
-    padding: 10,
-    width: 120,
-    height: 40,
+    padding: width * 0.02,
     justifyContent: "center",
-    borderRadius: 20,
     flexDirection: "row",
   },
   textsign: {
-    color: "white",
+    fontSize: width * 0.06,
+    fontWeight: "bold",
+  },
+  material: {
+    color: "#9370DB",
+    paddingTop: width * 0.016,
+    fontSize: width * 0.06,
   },
 });

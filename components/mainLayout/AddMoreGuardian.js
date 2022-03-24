@@ -75,7 +75,7 @@ export default function SignUPScreen({ navigation }) {
         />
       </View>
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.text_footer}>Email of new guardian</Text>
+        <Text style={styles.text_footer}>Email of new guardian ( Only primary users can add )</Text>
         <View style={styles.action}>
           <FontAwesome name="user-o" color="#05375a" size={20} />
           <TextInput

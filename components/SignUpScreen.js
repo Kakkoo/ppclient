@@ -9,9 +9,9 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  Dimensions
+  Dimensions,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import * as Animatable from "react-native-animatable";
@@ -64,84 +64,140 @@ export default function SignUPScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#9370DB" barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Register Now!</Text>
-        <Animatable.Image animation="bounceIn" source={require('./images/nemo.png')} style={styles.logo} resizeMode='stretch' />
-      </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.text_footer}>Email</Text>
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Email"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={(val) => emailInputChange(val)}
-          />
-
-          {Data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20} />
-            </Animatable.View>
-          ) : null}
+        <View style={styles.headerPart1}>
+          <Text style={styles.text_header}>Register Now!</Text>
         </View>
-        <ERROR Error={Error} />
-        <View style={styles.button}>
+        <View style={styles.headerPart2}>
+          <Animatable.Image
+            animation="bounceIn"
+            source={require("./images/logo.png")}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+        </View>
+      </View>
+      <View style={styles.mid}>
+        <View style={styles.mid1}>
+          <View style={styles.action}>
+            <FontAwesome
+              name="user-o"
+              color="#05375a"
+              style={styles.FontAwesome}
+            />
+            <TextInput
+              placeholder="Your Email"
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={(val) => emailInputChange(val)}
+            />
+
+            {Data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="green" size={20} />
+              </Animatable.View>
+            ) : null}
+            <ERROR Error={Error} />
+          </View>
+        </View>
+        <View style={styles.mid2}>
           <TouchableOpacity
             onPress={() => {
               registerUser(Data);
             }}
           >
-            <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
-              style={(styles.signIn, { color: "#fff" })}
-            >
-              <Text style={styles.textSign}>Sign up</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Sign In")}
-            style={[
-              styles.signIn,
-              { borderColor: "#009387", borderWidth: 1, marginTop: 10 },
-            ]}
-          >
-            <Text style={[styles.textSign, { color: "#009387" }]}>Sign In</Text>
+            <Text style={[styles.textSign, {color: "white"}]}>Sign up</Text>
           </TouchableOpacity>
         </View>
-      </Animatable.View>
+      </View>
+      <View style={styles.footer}>
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Sign In")}
+          >
+            <Text style={styles.textSign}>Sign In</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <MaterialIcons name="navigate-next" style={styles.material} />
+        </View>
+      </View>
     </View>
   );
 }
-const {height} = Dimensions.get('screen');
+const { height } = Dimensions.get("screen");
 const height_logo = height * 0.07;
+const { width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#009387",
+    backgroundColor: "white",
+    padding: width * 0.036,
+    paddingTop: 0,
   },
   header: {
     flex: 1,
-    justifyContent: "flex-end",
-    paddingHorizontal: 20,
-    paddingBottom: 10,
+    //paddingHorizontal: width * 0.05,
+    // paddingBottom: height * 0.01,
+    flexDirection: "row",
+    //margin: height*0.01
   },
-  footer: {
-    flex: 11,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+  headerPart1: {
+    flex: 2,
+    backgroundColor: "#E6E6FA",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+    padding: width * 0.04,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerPart2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // paddingTop: height*0.01,
+    // paddingLeft: width*0.45,
+  },
+  mid: {
+    flex: 2,
+    flexDirection: "row",
+  },
+  mid1: {
+    flex: 3,
+    backgroundColor: "#FFC0CB",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: width * 0.04,
+    marginLeft: 0,
+    padding: width * 0.03,
+  },
+  mid2: {
+    flex: 2,
+    backgroundColor: "#9370DB",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: width * 0.13,
+    marginLeft: 0,
+    marginRight: 0,
+    //margin: width*0.02
   },
   text_header: {
-    color: "#fff",
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: width * 0.09,
+    color: "#454545",
   },
   text_footer: {
     color: "#05375a",
@@ -149,29 +205,44 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: "row",
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
-    paddingBottom: 3,
+    marginTop: 0,
+    borderBottomWidth: width * 0.001,
+    borderBottomColor: "#E9E4D4",
+    paddingBottom: width * 0.02,
   },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
   },
   button: {
     alignItems: "center",
     marginTop: 30,
   },
+  button1: {
+    alignItems: "center",
+    marginTop: 0,
+  },
   signIn: {
-    width: "100%",
-    height: 50,
+    width: width * 0.5,
     justifyContent: "center",
-    borderRadius: 10,
+    borderRadius: 20,
+    flexDirection: "row",
+  },
+  signIn1: {
+    width: width * 0.8,
+    height: height * 0.07,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
   textSign: {
-    fontSize: 18,
+    fontSize: width * 0.06,
+    fontWeight: "bold",
+    color: "#454545",
+  },
+  textSign1: {
+    fontSize: width * 0.06,
     fontWeight: "bold",
   },
   danger: {
@@ -181,9 +252,42 @@ const styles = StyleSheet.create({
   logo: {
     width: height_logo,
     height: height_logo,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+  },
+  signIn1: {
+    width: width * 0.8,
+    height: height * 0.07,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: "#FFD700",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+    paddingHorizontal: height * 0.01,
+    paddingVertical: height * 0.04,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 0,
+  },
+  danger: {
+    backgroundColor: "#E2A76F",
+    color: "white",
+  },
+  logo: {
+    width: height_logo,
+    height: height_logo,
+  },
+  material: {
+    color: "#9370DB",
+    paddingTop: width * 0.08,
+    fontSize: width * 0.07,
+  },
+  FontAwesome: {
+    fontSize: width * 0.07,
   },
 });

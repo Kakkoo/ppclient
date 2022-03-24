@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
@@ -10,18 +10,39 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import FixedBottom from "./FixedBottom";
 import * as Animatable from "react-native-animatable";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Main({ navigation }) {
+  const SignOut = async () => {
+    try {
+      await AsyncStorage.clear();
+      navigation.navigate("Sign In");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [tkn, setTkn] = useState("");
+  useEffect(() => {
+const Tkn = AsyncStorage.getItem("userToken");
+if(Tkn !== ""){
+  setTkn(Tkn);
+}
+  }, [])
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#158FAD" barStyle="light-content" />
+      <StatusBar backgroundColor="#9370DB" barStyle="light-content" />
       <View style={styles.header}>
-        <Animatable.Image
-          animation="bounceIn"
-          source={require("./images/nemo.png")}
-          style={styles.logo}
-          resizeMode="stretch"
-        />
+        <View style={styles.header1}>
+          <Text style={styles.text_header}>Main</Text>
+        </View>
+        <View style={styles.header2}>
+          <Animatable.Image
+            animation="bounceIn"
+            source={require("./images/logo.png")}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+        </View>
       </View>
 
       <View style={styles.footer}>
@@ -36,7 +57,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text>Add or remove kid name...</Text>
+                  <Text style={styles.text}>Add or remove kid name</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -50,7 +71,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text>Assign work to kid...</Text>
+                  <Text style={styles.text}>Assign work to kid</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -68,7 +89,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text>View Status of work...</Text>
+                  <Text style={styles.text}>View Status of work</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -84,7 +105,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text style="styles.textsign">History</Text>
+                  <Text style={styles.text}>History</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -98,7 +119,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text>Add new guardian</Text>
+                  <Text style={styles.text}>Add new guardian</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -112,7 +133,7 @@ export default function Main({ navigation }) {
                   style={styles.Lbtn1}
                   colors={["#158FAD", "#43C6DB"]}
                 >
-                  <Text>ChangePassword</Text>
+                  <Text style={styles.text}>ChangePassword</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </LinearGradient>
@@ -121,7 +142,10 @@ export default function Main({ navigation }) {
       </View>
       <View>
         <FixedBottom>
-          <TouchableOpacity onPress={() => navigation.navigate("SignInScreen")}>
+          <TouchableOpacity onPress= {() => 
+          //navigation.navigate("Sign In")}
+          {SignOut()}}
+          >
             <LinearGradient
               style={styles.fixed}
               colors={["#E8A317", "#E1D9D1"]}
@@ -136,19 +160,42 @@ export default function Main({ navigation }) {
 }
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.07;
+const { width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    marginTop: 30,
-    backgroundColor: "#158FAD",
+    backgroundColor: "white",
+    padding: width * 0.036,
+    paddingTop: 0
   },
   header: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingHorizontal: 30,
-    paddingBottom: 30,
+    // paddingHorizontal: 30,
+    // paddingBottom: 10,
+    flexDirection: "row",
+  },
+  header1: {
+    flex: 2,
+    backgroundColor: "#E6E6FA",
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: width*0.01,
+    borderTopLeftRadius: width * 0.08,
+borderTopRightRadius: width * 0.08,
+borderBottomLeftRadius: width * 0.08,
+borderBottomRightRadius: width * 0.08,
+  },
+  header2: {
+    flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center'
+  },
+  text_header: {
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  text: {
+    color: "#3A3B3C",
   },
   footer: {
     flex: 5,
@@ -170,22 +217,22 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   Lbtn: {
-    padding: 3,
-    borderTopLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    borderTopRightRadius: 20,
+    padding: 1,
+    borderTopLeftRadius: 7,
+    borderBottomRightRadius: 7,
+    borderBottomLeftRadius: 7,
+    borderTopRightRadius: 7,
     alignItems: "center",
-    width: 300,
+    width: 299,
   },
   Lbtn1: {
-    padding: 10,
-    borderTopLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    borderTopRightRadius: 20,
+    padding: 8,
+    borderTopLeftRadius: 7,
+    borderBottomRightRadius: 7,
+    borderBottomLeftRadius: 7,
+    borderTopRightRadius: 7,
     alignItems: "center",
-    width: 294,
+    width: 297,
   },
   upper: {
     alignItems: "center",

@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   footer: {
-    flex: 2,
+    flex: 4,
     backgroundColor: "#F5F5F5",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

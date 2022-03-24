@@ -8,15 +8,14 @@ import {
   Platform,
   TouchableOpacity,
   StatusBar,
-  Dimensions
+  Dimensions,
 } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import * as Animatable from "react-native-animatable";
 import AsyncStorage from "@react-native-community/async-storage";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import setAuthToken from "../utils/setAuthToken";
 
 export default function SignInScreen({ navigation }) {
@@ -62,12 +61,12 @@ export default function SignInScreen({ navigation }) {
       .then((res) => {
         const { token } = res.data;
         AsyncStorage.setItem("userToken", token);
-
         navigation.navigate("Main");
         setAuthToken(token);
+
         //decode token
-        const decoded = jwt_decode(token);
-        AsyncStorage.setItem("payload", decoded);
+        //const decoded = jwt_decode(token);
+        //AsyncStorage.setItem("payload", json.strigify(decoded) );
       })
       .catch((err) => {
         if (err) {
@@ -97,190 +96,231 @@ export default function SignInScreen({ navigation }) {
     }
     return content;
   };
+
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#158FAD" barStyle="light-content" />
+      <StatusBar backgroundColor="#9370DB" barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Welcome!</Text>
-        <Animatable.Image animation="bounceIn" source={require('./images/nemo.png')} style={styles.logo} resizeMode='stretch' />
+        <View style={styles.headerPart1}>
+          <Text style={styles.text_header}>Welcome!</Text>
+        </View>
+        <View style={styles.headerpart2}>
+          <Animatable.Image
+            animation="bounceIn"
+            source={require("./images/logo.png")}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+        </View>
       </View>
-      <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-        <Text style={styles.text_footer}>Email</Text>
-        <View style={styles.action}>
-          <FontAwesome name="user-o" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Email"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={(val) => textInputChange(val)}
-          />
+      <View style={styles.mid}>
+        <View style={styles.mid1}>
+          {/* <Text style={styles.text_footer}>Email</Text> */}
+          <View style={styles.action}>
+            <FontAwesome name="user-o" color="#05375a" style={styles.FontAwesome}  />
+            <TextInput
+              placeholder="Email"
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={(val) => textInputChange(val)}
+            />
 
-          {data.check_textInputChange ? (
-            <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20} />
-            </Animatable.View>
-          ) : null}
-        </View>
-        <View>
-          <ERROR Error={Error} />
-        </View>
+            {data.check_textInputChange ? (
+              <Animatable.View animation="bounceIn">
+                <Feather name="check-circle" color="green" style={styles.FontAwesome}  />
+              </Animatable.View>
+            ) : null}
+          </View>
+          <View>
+            <ERROR Error={Error} />
+          </View>
 
-        <Text
-          style={[
-            styles.text_footer,
-            {
-              marginTop: 35,
-            },
-          ]}
-        >
-          Password
-        </Text>
-        <View style={styles.action}>
-          <FontAwesome name="lock" color="#05375a" size={20} />
-          <TextInput
-            placeholder="Your Password"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={(val) => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <ERRORPASSWORD ErrorPassword={ErrorPassword} />
-        </View>
-        <View style={styles.button1}>
-          <TouchableOpacity
-            onPress={() => {
-              loginHandle(data);
-            }}
-          >
-            <LinearGradient
-              colors={["#158FAD", "#43C6DB"]}
-              style={styles.signIn}
-            >
-              <Text style={styles.textSign}>Sign In</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-        <View >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Forgot password")}
+          {/* <Text
             style={[
-              styles.signIn1,
-              { marginTop: 30 },
+              styles.text_footer,
+              {
+                marginTop: 11,
+              },
             ]}
           >
-            <LinearGradient
-              colors={["#E8A317", "#E1D9D1"]}
-              style={styles.signIn1}
+            Password
+          </Text> */}
+          <View style={styles.action}>
+            <FontAwesome name="lock" color="#05375a" style={styles.FontAwesome}  />
+            <TextInput
+              placeholder="Password"
+              secureTextEntry={data.secureTextEntry ? true : false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={(val) => handlePasswordChange(val)}
+            />
+            <TouchableOpacity onPress={updateSecureTextEntry}>
+              {data.secureTextEntry ? (
+                <Feather name="eye-off" color="grey" size={16} />
+              ) : (
+                <Feather name="eye" color="grey" style={styles.FontAwesome}  />
+              )}
+            </TouchableOpacity>
+          </View>
+          <View>
+            <ERRORPASSWORD ErrorPassword={ErrorPassword} />
+          </View>
+        </View>
+        <View style={styles.mid2}>
+          <View style={styles.button1}>
+            <TouchableOpacity
+              onPress={() => {
+                loginHandle(data);
+              }}
             >
-            <Text style={styles.textSign1}>
-              Forgot password
-            </Text>
-            </LinearGradient>
+              <Text style={styles.textSign}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      <View style={styles.footer}>
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Forgot password")}
+            style={[styles.signIn1, { marginTop: 30 }]}
+          >
+            <Text style={styles.textSign1}>Forgot password</Text>
+            <MaterialIcons name="navigate-next" style={styles.material} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("Sign Up")}
-            style={[
-              styles.signIn1,
-              { marginTop: 15 },
-            ]}
+            style={[styles.signIn1, { marginTop: 10 }]}
           >
-             <LinearGradient
-              colors={["#E8A317", "#E1D9D1"]}
-              style={styles.signIn1}
-            >
             <Text style={styles.textSign1}>Sign Up</Text>
-            </LinearGradient>
+            <MaterialIcons name="navigate-next" style={styles.material} />
           </TouchableOpacity>
         </View>
-        {/* <FixedBottom>
-          <Button title="Parent Portal" />
-        </FixedBottom> */}
-      </Animatable.View>
+      </View>
     </View>
   );
 }
-const {height} = Dimensions.get('screen');
+const { height } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 const height_logo = height * 0.07;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#158FAD",
+    backgroundColor: "white",
+    padding: width * 0.036,
+    paddingTop: 0
   },
   header: {
     flex: 1,
-    justifyContent: "flex-end",
-    paddingHorizontal: 30,
-    paddingBottom: 30,
+    //paddingHorizontal: width * 0.05,
+   // paddingBottom: height * 0.01,
+    flexDirection: "row",
+    //margin: height*0.01
+  },
+  headerPart1: {
+    flex: 2,
+    backgroundColor: "#E6E6FA",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+   padding: width * 0.04,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerpart2: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // paddingTop: height*0.01,
+    // paddingLeft: width*0.45,
+  },
+  mid: {
+    flex: 2,
+    flexDirection: "row",
+  },
+  mid1: {
+flex: 3,
+backgroundColor: "#FFC0CB",
+borderTopLeftRadius: width * 0.08,
+borderTopRightRadius: width * 0.08,
+borderBottomLeftRadius: width * 0.08,
+borderBottomRightRadius: width * 0.08,
+justifyContent: 'center',
+alignItems: "center",
+margin: width*0.04,
+marginLeft: 0,
+padding: width*0.03
+  },
+  mid2: {
+flex: 2,
+backgroundColor: "#9370DB",
+borderTopLeftRadius: width * 0.08,
+borderTopRightRadius: width * 0.08,
+borderBottomLeftRadius: width * 0.08,
+borderBottomRightRadius: width * 0.08,
+justifyContent: 'center',
+alignItems: "center",
+margin: width*0.13,
+marginLeft: 0,
+marginRight: 0
+//margin: width*0.02
   },
   footer: {
-    flex: 3,
-    backgroundColor: "#F5F5F5",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 30,
-    paddingVertical: 30,
+    flex: 1,
+    backgroundColor: "#FFD700",
+    borderTopLeftRadius: width * 0.08,
+    borderTopRightRadius: width * 0.08,
+    borderBottomLeftRadius: width * 0.08,
+    borderBottomRightRadius: width * 0.08,
+  //  margin: height * 0.03,
+    paddingHorizontal: height * 0.01,
+    paddingVertical: height * 0.04,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 0
   },
   button1: {
     alignItems: "center",
     marginTop: 0,
   },
   text_header: {
-    color: "#F5F5F5",
     fontWeight: "bold",
-    fontSize: 30,
-  },
-  text_footer: {
-    color: "#05375a",
-    fontSize: 18,
+    fontSize: width*0.09,
+    color: "#000000",
   },
   action: {
     flexDirection: "row",
-    marginTop: 10,
-    borderBottomWidth: 1,
+    marginTop: 0,
+    borderBottomWidth: width*0.001,
     borderBottomColor: "#E9E4D4",
-    paddingBottom: 3,
+    paddingBottom: width*0.01,
   },
   textInput: {
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : -12,
-    paddingLeft: 10,
+    paddingLeft: width*0.03,
     color: "#05375a",
   },
-  button: {
-    alignItems: "center",
-    marginTop: 30,
-  },
   signIn: {
-    padding: 8,
-    width: 200,
-    height: 40,
+    width: width * 0.5,
     justifyContent: "center",
     borderRadius: 20,
     flexDirection: "row",
   },
   signIn1: {
-    padding: 4,
-    width: 350,
-    height: 30,
+    width: width * 0.8,
+    height: height * 0.07,
     justifyContent: "center",
-    borderRadius: 20,
+    alignItems: "center",
     flexDirection: "row",
   },
   textSign: {
-    fontSize: 18,
+    fontSize: width*0.06,
     fontWeight: "bold",
+    color: 'white'
   },
   textSign1: {
-    fontSize: 15,
+    fontSize: width*0.06,
     fontWeight: "bold",
   },
   danger: {
@@ -290,9 +330,13 @@ const styles = StyleSheet.create({
   logo: {
     width: height_logo,
     height: height_logo,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
+  material: {
+    color: "#9370DB",
+    paddingTop: width*0.01,
+    fontSize: width*0.07,
+  },
+  FontAwesome: {
+    fontSize: width*0.07
+  }
 });
